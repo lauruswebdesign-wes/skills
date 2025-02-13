@@ -37,18 +37,27 @@ async function getAccessToken() {
   
 
   const Home = () => {
-    const [filteredSkills, setFilteredSkills] = useState([]);
+    const [uiSkills, setUiSkills] = useState([]);
+    const [webSkills, setWebSkills] = useState([]);
     const [error, setError] = useState(null);
   
     useEffect(() => {
       const fetchData = async () => {
         try {
           const skillsData = await fetchSkills();
-          const filtered = skillsData.data.filter(skill => 
-            ['UI/UX Designer', 'Frontend Web Developer'].includes(skill.name)
+          console.log('All the data:', skillsData)
+
+          const uiUxSkills = skillsData.data.filter(skill => 
+            skill.name.toLowerCase().includes('ui/ux')
           );
-          setFilteredSkills(filtered);
-          console.log(skillsData);
+
+          const skillsWeb = skillsData.data.filter(skill => 
+            skill.name.toLowerCase().includes('web')
+          );
+
+          setUiSkills(uiUxSkills)
+          setWebSkills(skillsWeb)
+          
         } catch (error) {
           setError(error.message);
         }
@@ -58,12 +67,15 @@ async function getAccessToken() {
     }, []);
   
     if (error) return <div>Error loading skills: {error}</div>;
-  
+    
+    console.log('UI/UX Skills-->', uiSkills)
+    console.log('Web Skills-->', webSkills)
+
     return (
       <div>
         <h1>Skills</h1>
         <ul>
-          {filteredSkills.map((skill) => (
+          {uiSkills.map((skill) => (
             <li key={skill.id}>{skill.name}</li>
           ))}
         </ul>
