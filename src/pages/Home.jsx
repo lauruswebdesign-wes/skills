@@ -37,26 +37,36 @@ async function getAccessToken() {
   
 
   const Home = () => {
-    const [uiSkills, setUiSkills] = useState([]);
-    const [webSkills, setWebSkills] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [query, setQuery] = useState('')
+    // const [uiSkills, setUiSkills] = useState([]);
+    // const [webSkills, setWebSkills] = useState([]);
     const [error, setError] = useState(null);
+
+    const filteredSkills = !query ? [] : skills.filter(skill => 
+      skill.name.toLowerCase().includes(query)
+    );
+    console.log(filteredSkills)
   
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const skillsData = await fetchSkills();
+          const skillsData = await fetchSkills()
+          
+          setSkills(skillsData.data)
+
           console.log('All the data:', skillsData)
 
-          const uiUxSkills = skillsData.data.filter(skill => 
-            skill.name.toLowerCase().includes('ui/ux')
-          );
+          // const uiUxSkills = skillsData.data.filter(skill => 
+          //   skill.name.toLowerCase().includes('ui/ux')
+          // );
 
-          const skillsWeb = skillsData.data.filter(skill => 
-            skill.name.toLowerCase().includes('web')
-          );
+          // const skillsWeb = skillsData.data.filter(skill => 
+          //   skill.name.toLowerCase().includes('web')
+          // );
 
-          setUiSkills(uiUxSkills)
-          setWebSkills(skillsWeb)
+          // setUiSkills(uiUxSkills)
+          // setWebSkills(skillsWeb)
           
         } catch (error) {
           setError(error.message);
@@ -68,14 +78,17 @@ async function getAccessToken() {
   
     if (error) return <div>Error loading skills: {error}</div>;
     
-    console.log('UI/UX Skills-->', uiSkills)
-    console.log('Web Skills-->', webSkills)
 
     return (
       <div>
         <h1>Skills</h1>
+        <input 
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)} 
+        />
         <ul>
-          {uiSkills.map((skill) => (
+          {filteredSkills.map((skill) => (
             <li key={skill.id}>{skill.name}</li>
           ))}
         </ul>
