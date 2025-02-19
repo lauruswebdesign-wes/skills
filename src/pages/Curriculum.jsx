@@ -8,7 +8,7 @@ async function getAccessToken() {
         client_id: import.meta.env.VITE_CLIENT_ID,
         client_secret: import.meta.env.VITE_CLIENT_SECRET,
         grant_type: 'client_credentials',
-        scope: import.meta.env.VITE_SCOPE || 'emsi_open'
+        scope: 'emsi_open'
       })
     });
     const data = await response.json();
@@ -17,7 +17,7 @@ async function getAccessToken() {
 
 async function fetchCurricularSkills() {
     const accessToken = await getAccessToken();
-    const res = await fetch('https://emsiservices.com/skills/versions/latest/curricula', {
+    const res = await fetch('https://emsiservices.com/curricular-skills/courses/search', {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Accept': 'application/json'
@@ -25,6 +25,9 @@ async function fetchCurricularSkills() {
     });
   
     if (!res.ok) {
+        const errorMessage = await res.text();
+        console.log("API Error Response:", errorMessage);
+
       throw new Error('Failed to fetch curricular skills');
     }
   

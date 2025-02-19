@@ -1,99 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaGlobe, FaLaptopCode, FaFilm, FaBusinessTime, FaHeartbeat, FaInfoCircle } from 'react-icons/fa';
 
+const departments = [
+  { name: "Web", path: "/web", icon: <FaGlobe size={40} /> },
+  { name: "Information", path: "/information", icon: <FaInfoCircle size={40} /> },
+  { name: "Animation", path: "/animation", icon: <FaLaptopCode size={40} /> },
+  { name: "Video", path: "/video", icon: <FaFilm size={40} /> },
+  { name: "Business", path: "/business", icon: <FaBusinessTime size={40} /> },
+  { name: "Medical", path: "/medical", icon: <FaHeartbeat size={40} /> },
+];
 
+const Home = () => {
+  return (
+    <div className="grid grid-cols-3 gap-6 p-6 justify-items-center w-4xl m-auto">
+      {departments.map((dept, index) => (
+        <Link 
+          key={index} 
+          to={dept.path} 
+          className="w-[260px] h-[150px] flex flex-col items-center justify-center 
+             bg-primary text-white rounded-[10px] shadow-md hover:shadow-lg 
+             transition-transform transform hover:scale-105 duration-200"
+        >
+          {dept.icon}
+          <h2 className="mt-2 text-lg font-semibold">{dept.name}</h2>
+        </Link>
+      ))}
+    </div>
+  );
+};
 
-async function getAccessToken() {
-    const response = await fetch('https://auth.emsicloud.com/connect/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        client_id: import.meta.env.VITE_CLIENT_ID,
-        client_secret: import.meta.env.VITE_CLIENT_SECRET,
-        grant_type: 'client_credentials',
-        scope: import.meta.env.VITE_SCOPE || 'emsi_open'
-      })
-    });
-    const data = await response.json();
-    return data.access_token;
-  }
-
-  
-  async function fetchSkills() {
-    const accessToken = await getAccessToken();
-    const res = await fetch('https://emsiservices.com/skills/versions/latest/skills', {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Accept': 'application/json'
-      }
-    });
-  
-    if (!res.ok) {
-      throw new Error('Failed to fetch skills');
-    }
-  
-    return res.json();
-  }
-  
-
-  const Home = () => {
-    const [skills, setSkills] = useState([]);
-    const [query, setQuery] = useState('')
-    // const [uiSkills, setUiSkills] = useState([]);
-    // const [webSkills, setWebSkills] = useState([]);
-    const [error, setError] = useState(null);
-
-    const filteredSkills = !query ? [] : skills.filter(skill => 
-      skill.name.toLowerCase().includes(query)
-    );
-    console.log(filteredSkills)
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const skillsData = await fetchSkills()
-          
-          setSkills(skillsData.data)
-
-          console.log('All the data:', skillsData)
-
-          // const uiUxSkills = skillsData.data.filter(skill => 
-          //   skill.name.toLowerCase().includes('ui/ux')
-          // );
-
-          // const skillsWeb = skillsData.data.filter(skill => 
-          //   skill.name.toLowerCase().includes('web')
-          // );
-
-          // setUiSkills(uiUxSkills)
-          // setWebSkills(skillsWeb)
-          
-        } catch (error) {
-          setError(error.message);
-        }
-      };
-  
-      fetchData();
-    }, []);
-  
-    if (error) return <div>Error loading skills: {error}</div>;
-    
-
-    return (
-      <div>
-        <h1>Skills</h1>
-        <input 
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)} 
-        />
-        <ul>
-          {filteredSkills.map((skill) => (
-            <li key={skill.id}>{skill.name}</li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
-export default Home
+export default Home;
