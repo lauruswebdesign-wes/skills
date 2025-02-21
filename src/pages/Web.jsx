@@ -1,95 +1,60 @@
 import { useState, useEffect } from "react";
-
-async function getAccessToken() {
-  const response = await fetch('https://auth.emsicloud.com/connect/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      client_id: import.meta.env.VITE_CLIENT_ID,
-      client_secret: import.meta.env.VITE_CLIENT_SECRET,
-      grant_type: 'client_credentials',
-      scope: import.meta.env.VITE_SCOPE || 'emsi_open'
-    })
-  });
-  const data = await response.json();
-  return data.access_token;
-}
-
-
-async function fetchSkills() {
-  const accessToken = await getAccessToken();
-  const res = await fetch('https://emsiservices.com/skills/versions/latest/skills', {
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Accept': 'application/json'
-    }
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch skills');
-  }
-
-  return res.json();
-}
+import { fetchSkills } from "../utils/fetchSkills";
 
 const Web = () => {
     const [skills, setSkills] = useState([]);
-    const [query, setQuery] = useState('')
-    // const [uiSkills, setUiSkills] = useState([]);
-    // const [webSkills, setWebSkills] = useState([]);
+    const [query, setQuery] = useState("web"); // Default to 'web'
     const [error, setError] = useState(null);
 
-    const filteredSkills = !query ? [] : skills.filter(skill => 
-      skill.name.toLowerCase().includes(query)
-    );
-    console.log(filteredSkills)
-  
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const skillsData = await fetchSkills()
-          
-          setSkills(skillsData.data)
+        const fetchData = async () => {
+            try {
+                const skillsData = await fetchSkills(query);
+                setSkills(skillsData.data);
+            } catch (error) {
+                setError(error.message);
+            }
+        };
+        fetchData();
+    }, [query]);
 
-          console.log('All the data:', skillsData)
-
-          // const uiUxSkills = skillsData.data.filter(skill => 
-          //   skill.name.toLowerCase().includes('ui/ux')
-          // );
-
-          // const skillsWeb = skillsData.data.filter(skill => 
-          //   skill.name.toLowerCase().includes('web')
-          // );
-
-          // setUiSkills(uiUxSkills)
-          // setWebSkills(skillsWeb)
-          
-        } catch (error) {
-          setError(error.message);
-        }
-      };
-  
-      fetchData();
-    }, []);
-  
-    if (error) return <div>Error loading skills: {error}</div>;
-    
+    if (error) return <div className="text-red-500 text-center">Error loading skills: {error}</div>;
 
     return (
-      <div>
-        <h1 className='font-bold text-xl text-blue-700 text-center'>Skills</h1>
-        <input 
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)} 
-        />
-        <ul>
-          {filteredSkills.map((skill) => (
-            <li key={skill.id}>{skill.name}</li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+        <div className="p-4">
+            <h1 className="font-bold text-xl text-blue-700 text-center mb-4">Web Skills</h1>
+            
+            {/* Search Input */}
+            <div className="flex justify-center mb-6">
+                <input 
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    className="border border-gray-300 rounded p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Search skills..."
+                />
+            </div>
 
-export default Web
+            {/* Skills Grid */}
+            <div className="grid grid-cols-5 gap-4 justify-items-center">
+    {skills.map((skill) => (
+        <a 
+            key={skill.id} 
+            href={skill.infoUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="w-[200px] h-[100px] bg-white shadow-md rounded-lg p-4 flex flex-col justify-between 
+                       transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-lg 
+                       cursor-pointer no-underline"
+        >
+            <h6 className="font-bold text-center text-blue-600">{skill.name}</h6>
+            <p className="text-sm text-gray-600 text-center">{skill.type.name}</p>
+        </a>
+    ))}
+</div>
+
+        </div>
+    );
+};
+
+export default Web;

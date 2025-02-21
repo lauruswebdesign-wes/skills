@@ -10,9 +10,11 @@ const AppLayout = () => {
       <Header className="bg-primary" />
       <div className="flex">
         <VerticalMenu />
-        {/* Add margin to prevent content from being hidden behind the menu */}
-        <main className="flex-1 p-4">
-          <Outlet />
+        {/* Center the main content and set a max width */}
+        <main className="flex-1 flex justify-center p-4">
+          <div className="w-6xl mx-auto p-6"> {/* This ensures all pages have the same width */}
+            <Outlet />
+          </div>
         </main>
       </div>
       <Footer className="bg-primary mt-auto" />

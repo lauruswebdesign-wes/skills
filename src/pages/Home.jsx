@@ -13,7 +13,7 @@ const departments = [
 
 const Home = () => {
   return (
-    <div className="grid grid-cols-3 gap-6 p-6 justify-items-center w-4xl m-auto">
+    <div className="grid grid-cols-3 gap-6 justify-items-center">
       {departments.map((dept, index) => (
         <Link 
           key={index} 
