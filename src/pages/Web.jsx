@@ -37,21 +37,22 @@ const Web = () => {
 
             {/* Skills Grid */}
             <div className="grid grid-cols-5 gap-4 justify-items-center">
-    {skills.map((skill) => (
-        <a 
-            key={skill.id} 
-            href={skill.infoUrl} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="w-[200px] h-[100px] bg-white shadow-md rounded-lg p-4 flex flex-col justify-between 
-                       transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-lg 
-                       cursor-pointer no-underline"
-        >
-            <h6 className="font-bold text-center text-blue-600">{skill.name}</h6>
-            <p className="text-sm text-gray-600 text-center">{skill.type.name}</p>
-        </a>
-    ))}
-</div>
+              {skills.map((skill) => (
+                  <a 
+                  key={skill.id} 
+                  href={skill.infoUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-[200px] h-[130px] bg-white shadow-md rounded-lg p-4 flex flex-col 
+                            justify-between transform transition duration-500 ease-in-out 
+                            hover:scale-110 hover:shadow-lg cursor-pointer no-underline"
+                >
+                  <h6 className="font-bold text-center text-blue-600 flex-grow mb-1 line-clamp-3">{skill.name}</h6>
+                  <p className="text-sm text-gray-600 text-center">{skill.type.name}</p>
+                </a>
+                
+              ))}
+          </div>
 
         </div>
     );

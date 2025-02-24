@@ -1,10 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { AiFillHome } from 'react-icons/ai'; // Import Home icon from react-icons
 
 const VerticalMenu = () => {
   return (
-    <nav className="bg-primary w-[175px] h-screen fixed left-0 top-0 flex flex-col justify-center text-center">
-      <ul className="p-4">
+    <nav className="bg-primary w-[175px] h-screen fixed left-0 top-0 flex flex-col justify-center items-center text-center p-4">
+      {/* Home Icon Link */}
+      <Link to="/" className="text-white mb-4 p-2 hover:bg-white hover:text-primary rounded-full transition">
+        <AiFillHome size={32} />
+      </Link>
+
+      {/* Navigation Links */}
+      <ul className="w-full">
         <li><Link to="/web" className="text-white block py-2">Web</Link></li>
         <li><Link to="/information" className="text-white block py-2">Information</Link></li>
         <li><Link to="/animation" className="text-white block py-2">Animation</Link></li>
