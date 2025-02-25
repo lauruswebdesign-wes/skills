@@ -15,7 +15,7 @@ const AppLayout = () => {
       <Header className="bg-primary" />
       <div className="flex">
         <VerticalMenu />
-        <main className="flex-1 flex justify-center p-4">
+        <main className="flex-1 flex justify-center p-4 ml-[175px]">
           <div className={`${containerWidth} mx-auto p-6`}>
             <Outlet />
           </div>
