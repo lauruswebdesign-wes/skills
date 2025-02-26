@@ -12,12 +12,12 @@ const VerticalMenu = () => {
 
       {/* Navigation Links */}
       <ul className="w-full">
-        <li><Link to="/web" className="text-white block py-2">Web</Link></li>
-        <li><Link to="/information" className="text-white block py-2">Information</Link></li>
-        <li><Link to="/animation" className="text-white block py-2">Animation</Link></li>
-        <li><Link to="/video" className="text-white block py-2">Video</Link></li>
-        <li><Link to="/business" className="text-white block py-2">Business</Link></li>
-        <li><Link to="/medical" className="text-white block py-2">Medical</Link></li>
+        <li><Link to="/skills/web" className="text-white block py-2">Web</Link></li>
+        <li><Link to="/skills/information" className="text-white block py-2">Information</Link></li>
+        <li><Link to="/skills/animation" className="text-white block py-2">Animation</Link></li>
+        <li><Link to="/skills/video" className="text-white block py-2">Video</Link></li>
+        <li><Link to="/skills/business" className="text-white block py-2">Business</Link></li>
+        <li><Link to="/skills/medical" className="text-white block py-2">Medical</Link></li>
       </ul>
     </nav>
   );
