@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { debounce } from "lodash"; // More optimized import is--> import debounce from "lodash.debounce";
+import debounce from "lodash.debounce"; // More optimized import is--> import debounce from "lodash.debounce";
 import { fetchSkills } from "../utils/fetchSkills";
 
 const SkillsPage = () => {
@@ -32,9 +32,11 @@ const SkillsPage = () => {
         []
     );
 
+    //Problem: The function gets recreated on every render, meaning the debounce logic resets. This results in unexpected API calls, breaking the optimization.
     useEffect(() => {
         fetchDebouncedSkills(query);
-        return () => fetchDebouncedSkills.cancel(); // Cleanup debounce on unmount
+        return () => fetchDebouncedSkills.cancel(); // Cleanup debounce on unmount to prevent memory leaks
+        //Always cleanup async operations like API calls or event listeners when components unmount.
     }, [query, fetchDebouncedSkills]);
 
     return (
@@ -50,7 +52,7 @@ const SkillsPage = () => {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     className="border border-gray-300 rounded p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Search skills..."
+                    placeholder="Search for more specific skills..."
                 />
             </div>
 
