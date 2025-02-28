@@ -18,12 +18,6 @@ const App = () => {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<Home />} />
           <Route path="/skills/:department" element={<SkillsPage />} />
-          {/* <Route path="web" element={<Web />} />
-          <Route path="information" element={<Information />} />
-          <Route path="animation" element={<Animation />} />
-          <Route path="video" element={<Video/>} />
-          <Route path="business" element={<Business />} />
-          <Route path="medical" element={<Medical />} /> */}
         </Route>
       </Routes>
    

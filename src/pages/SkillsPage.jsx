@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import debounce from "lodash.debounce"; // More optimized import is--> import debounce from "lodash.debounce";
 import { fetchSkills } from "../utils/fetchSkills";
+import SearchBar from "../components/SearchBar";
 
 const SkillsPage = () => {
     const { department } = useParams();
@@ -10,34 +10,29 @@ const SkillsPage = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    // Sync query with department when user navigates via department links
+    // Update query when department changes
     useEffect(() => {
         setQuery(department || "web");
     }, [department]);
 
-    const fetchDebouncedSkills = useCallback(
-        debounce(async (searchTerm) => {
-            if (!searchTerm) return;
-            setLoading(true);
-            try {
-                const skillsData = await fetchSkills(searchTerm);
-                setSkills(skillsData.data);
-                setError(null);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        }, 500),
-        []
-    );
+    // Fetch skills only when query changes
+    const fetchSkillsData = useCallback(async (searchTerm) => {
+        if (!searchTerm) return;
+        setLoading(true);
+        try {
+            const result = await fetchSkills(searchTerm);
+            setSkills(result.data);
+            setError(null);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
-    //Problem: The function gets recreated on every render, meaning the debounce logic resets. This results in unexpected API calls, breaking the optimization.
     useEffect(() => {
-        fetchDebouncedSkills(query);
-        return () => fetchDebouncedSkills.cancel(); // Cleanup debounce on unmount to prevent memory leaks
-        //Always cleanup async operations like API calls or event listeners when components unmount.
-    }, [query, fetchDebouncedSkills]);
+        fetchSkillsData(query);
+    }, [query, fetchSkillsData]);
 
     return (
         <div className="p-4">
@@ -45,22 +40,21 @@ const SkillsPage = () => {
                 {query} Skills
             </h1>
 
-            {/* Search Input */}
-            <div className="flex justify-center mb-6">
-                <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    className="border border-gray-300 rounded p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Search for more specific skills..."
-                />
+            <div className="flex flex-col items-center mb-6">
+                <label htmlFor="skill-search" className="text-gray-600 text-sm mb-1">
+                    Drill deeper below to search and find any skill in the database:
+                </label>
+
+                {/* Pass query & setter to child */}
+                <SearchBar initialQuery={query} onSearch={setQuery} />
             </div>
 
-            {/* Loading Spinner */}
             {loading ? (
                 <div className="flex justify-center items-center h-40">
                     <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                 </div>
+            ) : error ? (
+                <p className="text-red-500 text-center">{error}</p>
             ) : (
                 <div className="grid grid-cols-5 gap-4 justify-items-center">
                     {skills.map((skill) => (
