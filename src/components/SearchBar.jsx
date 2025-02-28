@@ -51,7 +51,7 @@ const SearchBar = ({ initialQuery, onSearch }) => {
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 className="border border-gray-300 rounded-lg p-2 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder={isFocused ? "Type a skill (e.g., 'React', 'Marketing', 'UX Design, '3D')" : ""}
+                placeholder={isFocused ? "Type a skill (e.g., 'AWS', 'Marketing', 'UX Design, '3D')" : ""}
             />
             <button type="submit" className="hidden">Search</button>
         </form>

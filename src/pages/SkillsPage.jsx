@@ -41,8 +41,8 @@ const SkillsPage = () => {
             </h1>
 
             <div className="flex flex-col items-center mb-6">
-                <label htmlFor="skill-search" className="text-gray-600 text-sm mb-1">
-                    Drill deeper below to search and find any skill in the database:
+                <label htmlFor="skill-search" className="text-gray-800 text-sm mb-3 ">
+                    Drill deeper to search and find any skill in the database:
                 </label>
 
                 {/* Pass query & setter to child */}

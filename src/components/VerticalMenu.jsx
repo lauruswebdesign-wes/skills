@@ -1,8 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AiFillHome } from 'react-icons/ai'; // Import Home icon from react-icons
 
 const VerticalMenu = () => {
+  const location = useLocation(); // Get the current path
+
+  // Define menu items
+  const menuItems = [
+    { path: "/skills/web", label: "Web" },
+    { path: "/skills/information", label: "Information" },
+    { path: "/skills/animation", label: "Animation" },
+    { path: "/skills/video", label: "Video" },
+    { path: "/skills/business", label: "Business" },
+    { path: "/skills/medical", label: "Medical" },
+  ];
+
   return (
     <nav className="bg-primary w-[175px] h-screen fixed left-0 top-0 flex flex-col justify-center items-center text-center p-4">
       {/* Home Icon Link */}
@@ -12,12 +24,18 @@ const VerticalMenu = () => {
 
       {/* Navigation Links */}
       <ul className="w-full">
-        <li><Link to="/skills/web" className="text-white block py-2">Web</Link></li>
-        <li><Link to="/skills/information" className="text-white block py-2">Information</Link></li>
-        <li><Link to="/skills/animation" className="text-white block py-2">Animation</Link></li>
-        <li><Link to="/skills/video" className="text-white block py-2">Video</Link></li>
-        <li><Link to="/skills/business" className="text-white block py-2">Business</Link></li>
-        <li><Link to="/skills/medical" className="text-white block py-2">Medical</Link></li>
+        {menuItems.map((item) => (
+          <li key={item.path}>
+            <Link
+              to={item.path}
+              className={`block py-2 ${
+                location.pathname === item.path ? "text-[#f99b1c] font-bold" : "text-white"
+              } transition-colors`}
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
