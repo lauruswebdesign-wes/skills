@@ -4,7 +4,7 @@ import { fetchSkills } from "../utils/fetchSkills";
 import SearchBar from "../components/SearchBar";
 
 const SkillsPage = () => {
-    const { department } = useParams();
+    const { department } = useParams(); // 'web' 'animation' 'video' 'information'
     const [skills, setSkills] = useState([]);
     const [query, setQuery] = useState(department || "web");
     const [error, setError] = useState(null);

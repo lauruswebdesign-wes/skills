@@ -18,6 +18,8 @@ const SearchBar = ({ initialQuery, onSearch }) => {
         [onSearch]
     );
 
+    //so every char I type is triggering debouncedSearch which triggers the data api fetch via onSearch but we don't want the debouncedSearch being recreated on every re-render tyhus we memoize it.
+
     const handleInputChange = (e) => {
         const value = e.target.value;
         setInputValue(value);
