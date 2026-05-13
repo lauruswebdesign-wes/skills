@@ -1,5 +1,7 @@
 # Skills Explorer Dashboard
 
+- Live Demo: https://skills-two.vercel.app/
+
 ## Overview
 
 The project originated from an initiative proposed by my former department chair, who wanted our department to better understand emerging workforce and technology skills captured through the Lightcast labor market data platform. The goal was to help ensure our curriculum remained aligned with current global industry trends and evolving employer demands across disciplines such as Web Design, Animation, Video Production, Information Systems, Business, and Medical pathways.
@@ -144,4 +146,4 @@ npm run dev
 
 ## Author
 
-Built by Wesley Nimmo as part of ongoing educational technology, workforce-skills exploration, and frontend engineering research.
+Built by Wesley Nimmo as part of ongoing educational department tool to stay current on global labor trends in tech.
