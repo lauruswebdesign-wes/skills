@@ -34,6 +34,9 @@ const SkillsPage = () => {
         fetchSkillsData(query);
     }, [query, fetchSkillsData]);
 
+    console.log('current department-->', department)
+    console.log('and the current query-->', query)
+
     return (
         <div className="p-4">
             <h1 className="font-bold text-xl text-blue-700 text-center mb-4 capitalize">
